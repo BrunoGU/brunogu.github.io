@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correspondencia Internacional</title>
+    <!-- Reproductor de música -->
+<style type="text/css">
+  /* Authentic Frutiger Aero Button CSS */
+.frutiger-aero-button {
+  /* OKLCH Color System for accurate colors */
+  --hue: 140;
+  --sat: 0.2;
+  --glow-intensity: 0.7;
+
+  /* Color Variables */
+  --fg: oklch(15% calc(var(--sat) * 0.5) var(--hue));
+  --bg: oklch(75% var(--sat) var(--hue) / 0.8);
+  --bg-dark: oklch(45% var(--sat) var(--hue) / 0.75);
+  --bottom-glow: radial-gradient(
+    farthest-corner at bottom center,
+    rgba(255, 255, 255, var(--glow-intensity)),
+    transparent
+  );
+
+  /* Base Styling */
+  background-color: var(--bg);
+  background:
+    var(--bottom-glow),
+    linear-gradient(to bottom, var(--bg-dark), var(--bg));
+
+  border: 1px solid var(--bg);
+  border-radius: 9999px;
+
+  /* Shadows and Effects */
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+
+  /* Typography */
+  color: var(--fg);
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
+  text-shadow: 0 2px 0.5em rgba(0, 0, 0, 0.2);
+
+  /* Layout */
+  cursor: pointer;
+  position: relative;
+  transition: all 300ms ease;
+
+  /* Prevent text selection */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Top Highlight Effect */
+.frutiger-aero-button::after {
+  content: "";
+  position: absolute;
+  top: 4%;
+  left: 0.75em;
+  width: calc(100% - 1.5em);
+  height: 40%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: inherit;
+  transition: background 400ms ease;
+  pointer-events: none;
+}
+
+/* Hover State */
+.frutiger-aero-button:hover,
+.frutiger-aero-button:focus {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Active State */
+.frutiger-aero-button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: translateY(1px);
+}
+
+/* Size Variations */
+.frutiger-aero-button.small {
+  padding: 0.5em 1.5em;
+  font-size: 0.875rem;
+}
+
+.frutiger-aero-button.medium {
+  padding: 0.75em 2em;
+  font-size: 1rem;
+}
+
+.frutiger-aero-button.large {
+  padding: 1em 3em;
+  font-size: 1.125rem;
+}
+</style>
+<button class="frutiger-aero-button large">
+<div class="audio-player">
+    <h2>Escucha--Play--听</h2>
+    <audio controls>
+        <source src="song.mp3" type="audio/mp3"> <!-- Asegúrate de tener el archivo de la canción en la misma carpeta -->
+        Tu navegador no soporta el formato de audio.
+    </audio>
+</div>
+</button>
+
+    <!-- Incluir la librería Leaflet.js -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        body {
+            background-image: url('image.gif');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background-color: rgba(0, 170, 255, 0.7);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid #0077b3;
+        }
+
+        .section-title {
+            cursor: pointer;
+            color: #0077b3;
+            font-size: 2em;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .section-title:hover {
+            background-color: rgba(0, 170, 255, 0.5);
+        }
+
+        .content {
+            margin: 30px auto;
+            padding: 20px;
+            width: 70%;
+            background-color: #f9f9f9;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 10px;
+            display: none; /* Inicialmente oculto */
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 2px solid #fff;
+            font-size: 1.1em;
+        }
+
+        th {
+            background-color: #0077b3;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #b3e0ff;
+        }
+
+        img {
+            width: 20px;
+            height: 15px;
+            vertical-align: middle;
+        }
+
+        .audio-player {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Correspondencia Internacional</h1>
+</header>
+
+<div class="content">
+    <!-- Sección de recibido (desplegable) -->
+    <div class="section">
+        <h2 class="section-title">Cartas Recibidas</h2>
+        <table id="received-table">
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Fecha Enviada</th>
+                    <th>Fecha Recibida</th>
+                    <th>Ciudad de Envio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/us.png" alt="USA"> Estados Unidos</td>
+                    <td>23/12/2025</td>
+                    <td>03/2026</td>
+                    <td>New Orleans</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección de enviado (desplegable) -->
+    <div class="section">
+        <h2 class="section-title">Cartas Enviadas</h2>
+        <table id="sent-table">
+            <thead>
+                <tr>
+                    <th>País</th>
+                    <th>Fecha Enviada</th>
+                    <th>Fecha Recibida</th>
+                    <th>Ciudad de Destino</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/es.png" alt="España"> España</td>
+                    <td>12-03-2026</td>
+                    <td>09-04-2026</td>
+                    <td>Valencia</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/eg.png" alt="Egipto"> Egipto</td>
+                    <td>27-05-2025</td>
+                    <td>20-07-2025</td>
+                    <td>Asyut</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/us.png" alt="Estados Unidos"> Estados Unidos</td>
+                    <td>02-2026</td>
+                    <td>03-2026</td>
+                    <td>New Orleans</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/sg.png" alt="Singapur"> Singapur</td>
+                    <td>22-04-2026</td>
+                    <td>Not found :3</td>
+                    <td>Singapur</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/ca.png" alt="Canadá"> Canadá</td>
+                    <td>22-04-2026</td>
+                    <td>Not found :3</td>
+                    <td>Langford</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/bg.png" alt="Bulgaria"> Bulgaria</td>
+                    <td>02-2026</td>
+                    <td>04-2026</td>
+                    <td>Godech</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/nl.png" alt="Paises Bajos"> Paises Bajos</td>
+                    <td>22-04-2026</td>
+                    <td>Not found :3</td>
+                    <td>Zuidland</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/de.png" alt="Alemania"> Alemania</td>
+                    <td>17-04-2026</td>
+                    <td>Not found :3</td>
+                    <td>Burghaun</td>
+                </tr>
+                <tr>
+                    <td><img src="https://flagcdn.com/w320/cn.png" alt="China"> China</td>
+                    <td>Preparando</td>
+                    <td>Not found :3</td>
+                    <td>Baoding</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Sección de conexiones (mapa interactivo) -->
+    <div class="section">
+        <h2 class="section-title">Conexiones Internacionales</h2>
+        <div id="map"></div>
+    </div>
+
+</div>
+
+<style>
+/* Windows 7 Aero Glass Window CSS */
+/* Based on 7.css — https://github.com/khang-nd/7.css */
+.aero-window {
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif;
+  font-size: 9pt;
+  width: 800px;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+  box-shadow:
+    2px 2px 10px 1px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.98);
+  position: relative;
+  z-index: 0;
+}
+
+/* Full-window colored glass layer */
+.aero-window::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background:
+    linear-gradient(transparent 20%, rgba(255, 255, 255, 0.7) 40%, transparent 41%),
+    linear-gradient(to right, rgba(255, 255, 255, 0.4), rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.2)),
+    hsl(210, 55%, 45%);
+  background-color: hsl(210, 55%, 45%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.99);
+  opacity: 0.6;
+}
+
+/* Blur backdrop */
+.aero-window::after {
+  content: "";
+  position: absolute;
+  z-index: -10;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+/* Title bar — authentic diagonal glass stripe texture */
+.aero-title-bar {
+  padding: 6px;
+  padding-top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px 6px 0 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.99),
+    inset 1px 0 0 rgba(255, 255, 255, 0.99),
+    inset -1px 0 0 rgba(255, 255, 255, 0.99);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.33) 70px, transparent 100px),
+    linear-gradient(225deg, rgba(255, 255, 255, 0.33) 70px, transparent 100px),
+    linear-gradient(
+      54deg,
+      rgba(0,0,0,0.13) 0 4%, rgba(102,102,102,0.07) 6%, rgba(0,0,0,0.13) 8% 10%,
+      rgba(0,0,0,0.13) 15% 16%, rgba(170,170,170,0.07) 17% 18%, rgba(0,0,0,0.13) 23% 24%,
+      rgba(187,187,187,0.13) 25% 26%, rgba(0,0,0,0.13) 31% 33%,
+      rgba(0,0,0,0.13) 34% 34.5%, rgba(187,187,187,0.13) 36% 40%,
+      rgba(0,0,0,0.13) 41% 41.5%, rgba(187,187,187,0.13) 44% 45%,
+      rgba(187,187,187,0.13) 46% 47%, rgba(0,0,0,0.13) 48% 49%, rgba(0,0,0,0.13) 50% 50.5%,
+      rgba(0,0,0,0.13) 56% 56.5%, rgba(187,187,187,0.13) 57% 63%, rgba(0,0,0,0.13) 67% 69%,
+      rgba(187,187,187,0.13) 69.5% 70%, rgba(0,0,0,0.13) 73.5% 74%,
+      rgba(187,187,187,0.13) 74.5% 79%, rgba(0,0,0,0.13) 80% 84%,
+      rgba(170,170,170,0.13) 85% 86%, rgba(0,0,0,0.13) 87%, rgba(187,187,187,0.07) 90%
+    ) left center / 100vw 100vh no-repeat fixed;
+}
+
+/* Title icon */
+.aero-title-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  padding-top: 6px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Title text — black with white glow for glass legibility */
+.aero-title-bar-text {
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 15px;
+  padding-top: 6px;
+  text-shadow:
+    0 0 10px #fff, 0 0 10px #fff, 0 0 10px #fff, 0 0 10px #fff,
+    0 0 10px #fff, 0 0 10px #fff, 0 0 10px #fff, 0 0 10px #fff;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Window controls strip — capsule hanging from top */
+.aero-title-bar-controls {
+  display: flex;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.98),
+    1px 0 0 rgba(255, 255, 255, 0.98),
+    -1px 0 0 rgba(255, 255, 255, 0.98);
+}
+
+.aero-title-bar-controls button {
+  position: relative;
+  min-width: 29px;
+  min-height: 21px;
+  padding: 0;
+  border: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.65);
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.9), 0 1px 0 rgba(255, 255, 255, 0.8);
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 255, 255, 0.3) 45%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.1) 75%,
+    rgba(255, 255, 255, 0.5)
+  );
+  transition: box-shadow 0.1s;
+}
+
+.aero-title-bar-controls button:first-child {
+  border-bottom-left-radius: 5px;
+}
+
+.aero-title-bar-controls button:last-child {
+  border-right: 0;
+  border-bottom-right-radius: 5px;
+  min-width: 48px;
+}
+
+/* Hover — cyan radial glow */
+.aero-title-bar-controls button:not(.close):hover {
+  background:
+    radial-gradient(circle at bottom, #2aceda, transparent 65%),
+    linear-gradient(#b6d9ee 50%, #1a6ca1 50%);
+  box-shadow: 0 0 7px 3px #5dc4f0, inset 0 0 0 1px rgba(255, 255, 255, 0.98);
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+}
+
+.aero-title-bar-controls button:not(.close):active {
+  background:
+    radial-gradient(circle at bottom, #0bfdfa, transparent 65%),
+    linear-gradient(#86a7bc 50%, #092747 50%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.98);
+}
+
+/* Close button */
+.aero-title-bar-controls button.close {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  background:
+    radial-gradient(circle at -60% 50%, rgba(0, 0, 0, 0.44) 5% 10%, transparent 50%),
+    radial-gradient(circle at 160% 50%, rgba(0, 0, 0, 0.44) 5% 10%, transparent 50%),
+    linear-gradient(rgba(224, 161, 151, 0.9), #cf796a 25% 50%, #d54f36 50%);
+}
+
+.aero-title-bar-controls button.close:hover {
+  background:
+    radial-gradient(circle at bottom, #ff8a7a, transparent 65%),
+    linear-gradient(#ffbdb3 50%, #d40000 50%);
+  box-shadow: 0 0 7px 3px #ff5030, inset 0 0 0 1px rgba(255, 255, 255, 0.98);
+  color: white;
+}
+
+.aero-title-bar-controls button.close:active {
+  background:
+    radial-gradient(circle at bottom, #ff3300, transparent 65%),
+    linear-gradient(#d45050 50%, #8b0000 50%);
+}
+
+/* Menu bar */
+.aero-window-menubar {
+  background: linear-gradient(#fff 20%, #f1f4fa 25%, #f1f4fa 43%, #d4dbee 48%, #e6eaf6);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: stretch;
+  font-size: 9pt;
+  color: #000;
+  font-family: "Segoe UI", "SegoeUI", "Noto Sans", sans-serif;
+}
+
+.aero-window-menubar span {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  cursor: default;
+}
+
+.aero-window-menubar span:hover {
+  background: #3399ff;
+  color: #fff;
+}
+
+/* Window body — solid #f0f0f0 surface, inset 6px from glass border */
+.aero-window-body {
+  margin: 6px;
+  margin-top: 0;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  background: #f0f0f0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+  padding: 6px;
+}
+.large-image {
+    width: 40%;  /* Esto hace que la imagen ocupe todo el ancho disponible del contenedor */
+    max-width: 800px;  /* Puedes establecer un límite máximo de ancho para que no se haga demasiado grande */
+    height: auto;  /* Mantiene las proporciones de la imagen */
+}
+</style>
+
+<div class="aero-window">
+  <div class="aero-title-bar">
+    <span class="aero-title-icon"></span>
+    <span class="aero-title-bar-text">Untitled - Notepad</span>
+    <div class="aero-title-bar-controls">
+      <button aria-label="Minimize">&#8212;</button>
+      <button aria-label="Maximize">&#9633;</button>
+      <button aria-label="Close" class="close">&#215;</button>
+    </div>
+  </div>
+  <div class="aero-window-menubar">
+    <span>File</span>
+    <span>Edit</span>
+    <span>Format</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+  <div class="aero-window-body">
+    <!-- Your content here -->
+    ¿Quién soy?-Who I'm I?-我是谁？
+    <img src="yo.jpg" class="large-image" alt="yo">
+Bruno | 22 años/years | Chileno/Chilean | STEM
+<br>
+Soy un chico interesado en las formas de comunicación análogas (radio, correo postal, ecncriptación) y digitales (P2P, servidores web, foros, blockchain, LoRA, Bluethoot, Bitchat, SSTV) no convencionales como forma de preservar la escencia personal y flexibilidad de estas plataformas.
+<br>
+I am a guy interested in unconventional forms of communication, both analog (radio, postal mail, encryption) and digital (P2P, web servers, forums, blockchain, LoRA, Bluetooth, Bitchat, SSTV), as a way to preserve personal essence and the flexibility of these platforms.
+<br>
+我是一个对非常规的通讯方式感兴趣的男孩，包括模拟方式（广播、邮政、加密）和数字方式（P2P、Web服务器、论坛、区块链、LoRA、蓝牙、Bitchat、SSTV），作为一种保护个人本质和这些平台灵活性的方式。
+<br>
+He creado esta web para registrar las cartas y postales enviadas y recibidas. Si deseas intercambiar o enviar una carta escríbeme. 
+<br>
+Puedes encontrarme aquí: | You can find me here: | 你可以在这里找到我：
+<br>
+<a href="https://www.instagram.com/brutierre/">Instagram</a>
+<a href="https://www.postcrossing.com/user/brutierre">Postcrossing</a>
+<a href="https://www.qrz.com/db/CD2BGT">QRZ (CD2BGT)</a>
+  </div>
+</div>
+<!-- Flag Counter al final de la página -->
+<div style="text-align: center; margin-top: 30px;">
+    <a href="https://info.flagcounter.com/qhpj">
+        <img src="https://s01.flagcounter.com/count2/qhpj/bg_FFFFFF/txt_000000/border_CCCCCC/columns_2/maxflags_250/viewers_0/labels_0/pageviews_0/flags_0/percent_0/" alt="Flag Counter" border="0" style="width: 500px; height: auto;">
+    </a>
+</div>
+
+
+<script>
+    // Crear un nuevo objeto de Audio para el sonido de clic
+    var clickSound = new Audio('click-sound.mp3'); // Asegúrate de tener el archivo de sonido en la misma carpeta o usa una ruta correcta
+
+    // Reproducir el sonido de clic al hacer clic en cualquier parte de la página
+    document.body.addEventListener('click', function() {
+        clickSound.play();
+    });
+
+    // Función para alternar la visibilidad de las tablas (acordeón)
+    function toggleTable(tableId) {
+        var table = document.getElementById(tableId);
+        if (table.style.display === 'none' || table.style.display === '') {
+            table.style.display = 'table'; // Mostrar la tabla
+        } else {
+            table.style.display = 'none'; // Ocultar la tabla
+        }
+    }
+
+    // Asignar la función de alternar a cada título de sección
+    document.querySelectorAll('.section-title').forEach(function(sectionTitle) {
+        sectionTitle.addEventListener('click', function() {
+            var tableId = sectionTitle.nextElementSibling.id; // Obtener el id de la tabla siguiente
+            toggleTable(tableId);
+        });
+    });
+
+    // Crear el mapa con Leaflet.js
+    var map = L.map('map').setView([-32.9403, -70.7345], 6); // Coordenadas de San Felipe, Chile
+
+    // Cargar la capa del mapa desde OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Coordenadas de otras ciudades a conectar con San Felipe
+    var cities = [
+        { name: 'Valencia', lat: 39.4699075, lng: -0.3762881 },  // Correcto
+    { name: 'Asyut', lat: 27.1808, lng: 31.1854 },  // Coordenadas correctas para Asyut, Egipto
+    { name: 'New Orleans', lat: 29.9511, lng: -90.0715 },  // Coordenadas correctas para New Orleans, EE.UU.
+    { name: 'Godech', lat: 42.5547, lng: 23.1757 },  // Coordenadas correctas para Godech, Bulgaria
+    { name: 'Singapur', lat: 1.3521, lng: 103.8198 },  // Coordenadas correctas para Singapur
+    { name: 'Langford', lat: 48.4238, lng: -123.4481 },  // Coordenadas correctas para Langford, Canadá
+    { name: 'Zuidland', lat: 51.8133, lng: 4.4603 },  // Coordenadas correctas para Zuidland, Países Bajos
+    { name: 'Burghaun', lat: 50.6644, lng: 9.7241 },  // Coordenadas correctas para Burghaun, Alemania
+    { name: 'Baoding', lat: 38.8677, lng: 115.4645 } 
+    ];
+
+    // Crear un marcador en San Felipe, Chile
+    L.marker([-32.9403, -70.7345]).addTo(map)
+        .bindPopup("<b>San Felipe</b><br>Chile")
+        .openPopup();
+
+    // Agregar líneas conectando San Felipe con otras ciudades
+    cities.forEach(function(city) {
+        L.marker([city.lat, city.lng]).addTo(map)
+            .bindPopup("<b>" + city.name + "</b>")
+            .openPopup();
+
+        // Dibujar una línea desde San Felipe a la ciudad
+        L.polyline([[-32.9403, -70.7345], [city.lat, city.lng]], { color: 'blue' }).addTo(map);
+    });
+</script>
+</div>
+</body>
+</html>
