@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galería Frutiger Aero</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+
+      background:
+        radial-gradient(circle at top left, rgba(120, 220, 255, 0.45), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(120, 255, 190, 0.35), transparent 35%),
+        repeating-linear-gradient(
+          to bottom,
+          #eeeeee 0px,
+          #eeeeee 2px,
+          #ffffff 2px,
+          #ffffff 4px
+        );
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+
+    .gallery-window {
+      width: min(1100px, 100%);
+      padding: 18px;
+
+      background: linear-gradient(to bottom, #ffffff, #dff5ff);
+      border: 1px solid hsl(190, 45%, 65%);
+      border-radius: 14px;
+
+      box-shadow:
+        inset 0 1px 2px rgba(255, 255, 255, 0.9),
+        inset 0 -2px 5px rgba(0, 120, 180, 0.15),
+        0 10px 30px rgba(0, 80, 120, 0.25);
+    }
+
+    .gallery-header {
+      margin-bottom: 18px;
+      padding: 14px 18px;
+
+      background: linear-gradient(to bottom, #e9fbff, #9ee7ff 45%, #4fb8e8 46%, #d7f7ff);
+      border: 1px solid #6bb8d6;
+      border-radius: 10px;
+
+      box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.9),
+        0 2px 4px rgba(0, 80, 120, 0.2);
+    }
+
+    .gallery-header h1 {
+      margin: 0;
+      color: #115d78;
+      font-size: 1.6rem;
+      text-shadow: 0 1px 0 #ffffff;
+    }
+
+    .gallery-header p {
+      margin: 6px 0 0;
+      color: rgba(0, 50, 70, 0.75);
+      font-size: 0.9rem;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    figure.frutiger {
+      margin: 0;
+      padding: 5px;
+
+      background: #ffffff;
+      border: 1px solid hsl(0, 0%, 70%);
+      border-radius: 6px;
+
+      box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.2),
+        0 5px 12px rgba(0, 80, 130, 0.16);
+
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    figure.frutiger:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.18),
+        0 10px 22px rgba(0, 100, 160, 0.28);
+    }
+
+    figure.frutiger img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      display: block;
+
+      object-fit: cover;
+      border: 1px solid hsl(0, 0%, 80%);
+      border-radius: 5px;
+    }
+
+    figure.frutiger figcaption {
+      width: 100%;
+      min-height: 58px;
+
+      padding: 0.65em;
+      color: hsla(0, 0%, 0%, 0.8);
+      font-size: 0.82rem;
+      line-height: 1.35;
+
+      text-wrap: balance;
+      background: linear-gradient(to bottom, #ffffff, #f0fbff);
+      border-radius: 0 0 5px 5px;
+    }
+
+    .shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shine::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 45%;
+
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.8),
+        rgba(255, 255, 255, 0.15)
+      );
+
+      pointer-events: none;
+      border-radius: inherit;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="gallery-window">
+    <header class="gallery-header shine">
+      <h1>Galería Frutiger Aero</h1>
+      <p>Fotos con estética brillante, acuática y digital inspirada en interfaces de los 2000.</p>
+    </header>
+
+    <section class="gallery">
+      <figure class="frutiger">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Arratoon-Apcar-underwater.jpg"
+          alt="Escena submarina"
+        />
+        <figcaption>
+          Underwater is a common motif in Frutiger Aero interfaces.
+        </figcaption>
+      </figure>
+
+      <figure class="frutiger">
+        <img
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80"
+          alt="Mar turquesa"
+        />
+        <figcaption>
+          Agua clara, reflejos suaves y sensación de frescura digital.
+        </figcaption>
+      </figure>
+
+      <figure class="frutiger">
+        <img
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"
+          alt="Paisaje verde"
+        />
+        <figcaption>
+          Naturaleza limpia, colores vivos y atmósfera optimista.
+        </figcaption>
+      </figure>
+
+      <figure class="frutiger">
+        <img
+          src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=600&q=80"
+          alt="Camino moderno"
+        />
+        <figcaption>
+          Espacios abiertos con estética tecnológica y luminosa.
+        </figcaption>
+      </figure>
+
+      <figure class="frutiger">
+        <img
+          src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=600&q=80"
+          alt="Bosque iluminado"
+        />
+        <figcaption>
+          Verde brillante, profundidad y sensación de exploración.
+        </figcaption>
+      </figure>
+
+      <figure class="frutiger">
+        <img
+          src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=600&q=80"
+          alt="Paisaje natural"
+        />
+        <figcaption>
+          Composición limpia con luz suave y colores saturados.
+        </figcaption>
+      </figure>
+    </section>
+  </main>
+</body>
+</html>
